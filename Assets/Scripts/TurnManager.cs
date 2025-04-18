@@ -11,6 +11,7 @@ public class TurnManager : MonoBehaviour
     public int currentPlayer = 1;
     public int currentTurn = 1;
     public int maxTurns = 3;
+    public GameObject blockPrefab;
 
     void Start()
     {
@@ -19,23 +20,27 @@ public class TurnManager : MonoBehaviour
 
     public void NextTurn()
     {
-        if (currentPhase == GamePhase.Build)
+    if (currentPhase == GamePhase.Build)
+    {
+        currentPlayer = currentPlayer == 1 ? 2 : 1;
+        if (currentPlayer == 1)
         {
-            currentPlayer = currentPlayer == 1 ? 2 : 1;
-            if (currentPlayer == 1)
+            currentTurn++;
+            if (currentTurn > maxTurns)
             {
-                currentTurn++;
-                if (currentTurn > maxTurns)
-                {
-                    currentPhase = GamePhase.Smash;
-                    Debug.Log("Build phase complete. Smash phase begins.");
-                    return;
-                }
+                currentPhase = GamePhase.Smash;
+                Debug.Log("Build phase complete. Smash phase begins.");
+                return;
             }
-
-            Debug.Log($"Player {currentPlayer}'s turn. Turn {currentTurn}");
         }
+
+        Vector2 spawnPos = currentPlayer == 1 ? new Vector2(-2, 4) : new Vector2(2, 4);
+        Instantiate(blockPrefab, spawnPos, Quaternion.identity);
+
+        Debug.Log($"Player {currentPlayer}'s turn. Turn {currentTurn}");
     }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
