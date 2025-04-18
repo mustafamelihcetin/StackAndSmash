@@ -1,0 +1,38 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.csproj
+*.sln
+*.user
+*.pidb
+*.booproj
+
+# Unity
+MemoryCaptures/
+*.unitypackage
+*.pidb.meta
+*.suo
+*.tmp
+*.bak
+*.old
+*.orig
+*.mdb
+
+# Crash reports
+sysinfo.txt
+
+# OS dosyaları
+.DS_Store
+Thumbs.db
+
+# Auto-generated files
+ExportedObj/
+.consulo/
+.idea/
+.vscode/
