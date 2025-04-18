@@ -20,31 +20,45 @@ public class TurnManager : MonoBehaviour
 
     public void NextTurn()
     {
-    if (currentPhase == GamePhase.Build)
-    {
-        currentPlayer = currentPlayer == 1 ? 2 : 1;
-        if (currentPlayer == 1)
+        if (currentPhase == GamePhase.Build)
         {
-            currentTurn++;
-            if (currentTurn > maxTurns)
+            currentPlayer = currentPlayer == 1 ? 2 : 1;
+            if (currentPlayer == 1)
             {
-                currentPhase = GamePhase.Smash;
-                Debug.Log("Build phase complete. Smash phase begins.");
-                return;
+                currentTurn++;
+                if (currentTurn > maxTurns)
+                {
+                    currentPhase = GamePhase.Smash;
+                    Debug.Log("Build phase complete. Smash phase begins.");
+                    return;
+                }
             }
+
+            Debug.Log($"Player {currentPlayer}'s turn. Turn {currentTurn}");
         }
-
-        Vector2 spawnPos = currentPlayer == 1 ? new Vector2(-2, 4) : new Vector2(2, 4);
-        Instantiate(blockPrefab, spawnPos, Quaternion.identity);
-
-        Debug.Log($"Player {currentPlayer}'s turn. Turn {currentTurn}");
-    }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
+            HandleTouch();
+        }
+
+#if UNITY_EDITOR
+        if (Input.GetMouseButtonDown(0))
+        {
+            HandleTouch();
+        }
+#endif
+    }
+
+    void HandleTouch()
+    {
+        if (currentPhase == GamePhase.Build)
+        {
+            Vector2 spawnPos = currentPlayer == 1 ? new Vector2(-2, 4) : new Vector2(2, 4);
+            Instantiate(blockPrefab, spawnPos, Quaternion.identity);
             NextTurn();
         }
     }
